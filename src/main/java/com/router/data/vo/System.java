@@ -4,24 +4,25 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * Created by asus-pc on 28.09.2016.
+ * Created by asus-pc on 29.09.2016.
  */
+
 @Document
-public class Device {
+public class System {
 
     @Id
     private String id;
 
     private String name;
 
-    private String device_url;
+    private String system_url;
 
-    public String getDevice_url() {
-        return device_url;
+    public String getId() {
+        return id;
     }
 
-    public void setDevice_url(String device_url) {
-        this.device_url = device_url;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -32,12 +33,11 @@ public class Device {
         this.name = name;
     }
 
-    public String getId() {
-        return id;
+    public String getSystem_url() {
+        return system_url;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setSystem_url(String system_url) {
+        this.system_url = system_url;
     }
-
 }
