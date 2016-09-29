@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 @RestController
-@RequestMapping(value = "/admin")
+@RequestMapping(value = "/api/admin")
 public class AdminController {
 
     @Autowired
@@ -62,7 +62,7 @@ public class AdminController {
     public ResponseEntity<List<Device>> readList(@RequestParam(required = false)Integer offset, @RequestParam(required = false)Integer limit) {
         List<Device> devices = null;
         if (limit == null && offset == null) {
-            devices = deviceRepository.findAll(new PageRequest(0, 19, Sort.Direction.ASC)).getContent();
+            devices = deviceRepository.findAll(new PageRequest(0, 4, Sort.Direction.ASC)).getContent();
         } else if (limit != null && offset != null) {
             devices = deviceRepository.findAll(new PageRequest(offset, limit, Sort.Direction.ASC)).getContent();
         } else {
