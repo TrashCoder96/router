@@ -5,9 +5,7 @@ import com.router.data.vo.Device;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by asus-pc on 29.09.2016.
@@ -19,6 +17,7 @@ public class DataController {
     @Autowired
     private DeviceRepository deviceRepository;
 
+    @RequestMapping(value = "/send", method = RequestMethod.POST)
     public ResponseEntity sendData(@RequestParam String id, @RequestBody String str) {
         Device device = deviceRepository.findOne(id);
         if (device != null) {

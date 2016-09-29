@@ -1,17 +1,11 @@
 package com.router.web;
 
-import com.router.data.DeviceRepository;
 import com.router.data.SystemRepository;
-import com.router.data.vo.Device;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
@@ -43,10 +37,15 @@ public class SystemController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseEntity<com.router.data.vo.System> update(@RequestParam(required = true) String id, @RequestParam(required = true) String name) {
+    public ResponseEntity<com.router.data.vo.System> update(@RequestParam(required = true) String id, @RequestParam(required = false) String name, @RequestParam(required = false) String system_url) {
         com.router.data.vo.System system = systemRepository.findOne(id);
         if (system != null) {
-            system.setName(name);
+            if (name != null) {
+                system.setName(name);
+            }
+            if (system_url != null) {
+                system.setSystem_url(system_url);
+            }
             system = systemRepository.save(system);
             return new ResponseEntity<com.router.data.vo.System>(system, HttpStatus.OK);
         }
@@ -55,14 +54,13 @@ public class SystemController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ResponseEntity<com.router.data.vo.System> delete(String id) {
-        com.router.data.vo.System system = systemRepository.findOne(id);
-        if (system != null) {
-            systemRepository.delete(system);
-            return new ResponseEntity<com.router.data.vo.System>(system, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<com.router.data.vo.System>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<com.router.data.vo.System> delete(@RequestBody List<String> ids) {
+        for (String id: ids) {
+            if (systemRepository.exists(id)) {
+                systemRepository.delete(id);
+            }
         }
+        return new ResponseEntity<com.router.data.vo.System>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)

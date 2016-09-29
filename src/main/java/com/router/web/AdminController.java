@@ -4,13 +4,9 @@ import com.router.data.DeviceRepository;
 import com.router.data.vo.Device;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,10 +39,15 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public ResponseEntity<Device> update(@RequestParam(required = true) String id, @RequestParam(required = true) String name) {
+    public ResponseEntity<Device> update(@RequestParam(required = true) String id, @RequestParam(required = false) String name, @RequestParam(required = false) String device_url) {
         Device device = deviceRepository.findOne(id);
         if (device != null) {
-            device.setName(name);
+            if (name != null) {
+                device.setName(name);
+            }
+            if (device_url != null) {
+                device.setDevice_url(device_url);
+            }
             device = deviceRepository.save(device);
             return new ResponseEntity<Device>(device, HttpStatus.OK);
         }
@@ -55,14 +56,13 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ResponseEntity<Device> delete(String id) {
-        Device device = deviceRepository.findOne(id);
-        if (device != null) {
-            deviceRepository.delete(device);
-            return new ResponseEntity<Device>(device, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<Device>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Device> delete(@RequestBody List<String> ids) {
+        for (String id: ids) {
+            if (deviceRepository.exists(id)) {
+                deviceRepository.delete(id);
+            }
         }
+        return new ResponseEntity<Device>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
