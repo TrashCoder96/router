@@ -1,0 +1,12 @@
+spring:
+  mongodb:
+    application: router
+    host: localhost
+    port: 27017
+    database: router
+    login: router
+    password: router
+  admin:
+    username: admin
+    password: admin
+
