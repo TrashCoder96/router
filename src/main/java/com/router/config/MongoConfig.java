@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -40,7 +42,11 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
     @Override
     public Mongo mongo() throws Exception {
-        return new MongoClient(new MongoClientURI("mongodb://" + mongoDBLogin + ":" + mongoDBPassword + "@" + mongoHost + ":" + mongoPort));
+        ServerAddress serverAddress = new ServerAddress(mongoHost, Integer.valueOf(mongoPort));
+        MongoCredential auth = MongoCredential.createPlainCredential(mongoDBLogin, mongoDB, mongoDBPassword.toCharArray());
+        List<MongoCredential> credentialList = new ArrayList<MongoCredential>();
+        credentialList.add(auth);
+        return new MongoClient(serverAddress, credentialList);
     }
 
 }
