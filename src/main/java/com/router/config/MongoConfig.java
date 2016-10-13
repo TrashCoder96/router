@@ -46,7 +46,7 @@ public class MongoConfig extends AbstractMongoConfiguration {
         MongoCredential auth = MongoCredential.createPlainCredential(mongoDBLogin, mongoDB, mongoDBPassword.toCharArray());
         List<MongoCredential> credentialList = new ArrayList<MongoCredential>();
         credentialList.add(auth);
-        return new MongoClient(serverAddress, credentialList);
+        return new MongoClient(serverAddress, credentialList, new MongoClientOptions.Builder().connectTimeout(300000).socketTimeout(300000).build());
     }
 
 }
