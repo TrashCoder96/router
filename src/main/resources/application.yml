@@ -9,4 +9,5 @@ spring:
   admin:
     username: admin
     password: admin
-
+server:
+  port: 8080

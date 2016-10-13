@@ -28,6 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authenticationProvider(authenticationProvider)
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/send").anonymous()
                 .antMatchers("/api/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
