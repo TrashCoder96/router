@@ -45,11 +45,11 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
     public String getServiceURI() throws Exception {
         CloudEnvironment environment = new CloudEnvironment();
-        if ( environment.getServiceDataByLabels("mongodb-2.4").size() == 0 ) {
-            throw new Exception( "No MongoDB service is bound to this app!!" );
+        if ( environment.getServiceDataByLabels().size() == 0 ) {
+            throw new Exception("No MongoDB service is bound to this app!!");
         }
-        Map credential = (Map)((Map)environment.getServiceDataByLabels("mongodb-2.4").get(0)).get( "credentials" );
-        return (String)credential.get( "url" );
+        Map credential = (Map)((Map)environment.getServiceDataByLabels().get(0)).get("credentials");
+        return (String)credential.get("url");
     }
 
 }
