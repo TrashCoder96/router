@@ -49,7 +49,7 @@ public class MongoConfig extends AbstractMongoConfiguration {
             throw new Exception("No MongoDB service is bound to this app!!");
         }
         Map credential = (Map)((Map)environment.getServiceDataByLabels().get(0)).get("credentials");
-        return (String)credential.get("url");
+        return (String)credential.get("uri");
     }
 
 }
