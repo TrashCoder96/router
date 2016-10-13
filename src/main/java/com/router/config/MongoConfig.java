@@ -40,7 +40,7 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
     @Override
     public Mongo mongo() throws Exception {
-        return new MongoClient(new MongoClientURI("mongodb://" + mongoDBLogin + ":" + mongoDBPassword + "@" + mongoHost + ":" + mongoPort + "/" + mongoDB + "/ssl=true"));
+        return new MongoClient(new MongoClientURI("mongodb://" + mongoDBLogin + ":" + mongoDBPassword + "@" + mongoHost + ":" + mongoPort));
     }
 
 }
