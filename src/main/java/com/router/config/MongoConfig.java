@@ -40,13 +40,7 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
     @Override
     public Mongo mongo() throws Exception {
-        return new MongoClient(getServiceURI());//new MongoClientURI("mongodb://" + mongoDBLogin + ":" + mongoDBPassword + "@" + mongoHost + ":" + mongoPort + "/" + mongoDB));
-    }
-
-    public String getServiceURI() throws Exception {
-        CloudEnvironment environment = new CloudEnvironment();
-        Map credential = (Map)((Map)environment.getServiceDataByName("mongos")).get("credentials");
-        return (String)credential.get("uri");
+        return new MongoClient(new MongoClientURI("mongodb://" + mongoDBLogin + ":" + mongoDBPassword + "@" + mongoHost + ":" + mongoPort + "/" + mongoDB + "/ssl=true"));
     }
 
 }
