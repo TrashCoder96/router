@@ -27,9 +27,9 @@ public class DataController {
     @Autowired
     private SystemRepository systemRepository;
 
-    @RequestMapping(value = "/send", method = { RequestMethod.POST, RequestMethod.POST })
+    @RequestMapping(value = "/send", method = RequestMethod.POST)
     public ResponseEntity sendData(@RequestHeader(value="device_id") String device_id, @org.springframework.web.bind.annotation.RequestBody String entity) {
-        Device device = deviceRepository.findOne(device_id);
+        Device device = deviceRepository.findByName(device_id);
         if (device != null) {
             //рассылаем всем системам данные
             OkHttpClient client = new OkHttpClient();
@@ -46,8 +46,11 @@ public class DataController {
                     e.printStackTrace();
                 }
             }
+            return new ResponseEntity(entity, HttpStatus.OK);
+        } else {
+            return new ResponseEntity(entity, HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity(HttpStatus.OK);
+
     }
 
 }

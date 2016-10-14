@@ -7,4 +7,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * Created by asus-pc on 28.09.2016.
  */
 public interface DeviceRepository extends MongoRepository<Device, String> {
+
+    Device findByName(String name);
+
 }

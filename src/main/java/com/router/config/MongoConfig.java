@@ -42,18 +42,7 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
     @Override
     public Mongo mongo() throws Exception {
-        //ServerAddress serverAddress = new ServerAddress(mongoHost, Integer.valueOf(mongoPort));
-        //MongoCredential auth = MongoCredential.createPlainCredential(mongoDBLogin, mongoDB, mongoDBPassword.toCharArray());
-        //List<MongoCredential> credentialList = new ArrayList<MongoCredential>();
-        //credentialList.add(auth);
-        //return new MongoClient(serverAddress, credentialList, new MongoClientOptions.Builder().connectTimeout(300000).socketTimeout(300000).build());
-        return new MongoClient(getServiceURI());
-    }
-
-    public String getServiceURI() throws Exception {
-        CloudEnvironment environment = new CloudEnvironment();
-        Map credential = (Map)((Map)environment.getServiceDataByName("compose-for-mongodb")).get("credentials");
-        return (String)credential.get("uri");
+        return new MongoClient(mongoHost + ":" + mongoPort);
     }
 
 }

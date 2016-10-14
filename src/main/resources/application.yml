@@ -1,13 +1,13 @@
 spring:
   mongodb:
     application: router
-    host: sl-us-dal-9-portal.2.dblayer.com
-    port: 15875
+    host: localhost
+    port: 27017
     database: admin
     login: admin
-    password: AGWQRXQFSPDLYGWR
+    password: admin
   admin:
     username: admin
     password: admin
 server:
-  port: 80
+  port: 8080
