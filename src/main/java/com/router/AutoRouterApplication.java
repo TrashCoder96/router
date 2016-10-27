@@ -19,19 +19,24 @@ public class AutoRouterApplication {
 
 	@PostConstruct
 	public void createBasicDevice() {
-		Device device = new Device();
-		device.setId("id1");
-		device.setName("name1");
+		Device newdevice = new Device();
+		newdevice.setId("id1");
+		newdevice.setName("name1");
 		if (deviceRepository.findOne("id1") == null) {
-			deviceRepository.save(device);
+			deviceRepository.save(newdevice);
 		}
-		com.router.data.vo.System system = new com.router.data.vo.System();
-		system.setId("s1");
-		system.setSystem_url("http://localhost:1337");
-		system.setName("s1");
+
+		//для проивольно контекстной грамматики, может быть построен детерминированный автомат со стековой памятью, принимающий язык, порождаемый этой грамматикой
+		com.router.data.vo.System newsystem = new com.router.data.vo.System();
+		newsystem.setId("s1");
+		newsystem.setSystem_url("http://localhost:1337");
+		newsystem.setName("s1");
 		if (systemRepository.findOne("s1") == null) {
-			systemRepository.save(system);
+			systemRepository.save(newsystem);
 		}
+
+		//рекурсивный метод нисходящего разбора
+
 	}
 
 	public static void main(String[] args) {

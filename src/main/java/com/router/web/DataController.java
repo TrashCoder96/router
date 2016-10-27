@@ -34,7 +34,6 @@ public class DataController {
             //рассылаем всем системам данные
             OkHttpClient client = new OkHttpClient();
             for (System s: systemRepository.findAll()) {
-
                 RequestBody body = RequestBody.create(null, entity);
                 Request request = new Request.Builder()
                             .url(s.getSystem_url())

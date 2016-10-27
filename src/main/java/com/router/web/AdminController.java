@@ -38,6 +38,10 @@ public class AdminController {
             return new ResponseEntity<Device>(HttpStatus.BAD_REQUEST);
     }
 
+    //для каждого нетерминала грамматики выводится отдельная распознающас процедура, при этом соблюдаются следуюшие соглашени:
+    //1)перед началом работы процедуры текущим является первый символ анализируемого понятия
+    //2)в процессе разбора процедура считывает все символы входной цепочки, относящийся к данному нетерминалу( = выводимые из данного нетерминала) или сообщает об ошибке, если правило для данног нетерминала содержит в правых частях дрегие нетерминалы, то процедура обращается к распознающим процедурам этих нетерминалов для анализа соответсвующих частей въоднйо цепочки
+    //3)по окончанию работы процедуры текущим становится первым символ, следущий во входной цепочке за данной конструкцией языка
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public ResponseEntity<Device> update(@RequestParam(required = true) String id, @RequestParam(required = false) String name, @RequestParam(required = false) String device_url) {
         Device device = deviceRepository.findOne(id);
@@ -56,25 +60,29 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public ResponseEntity<Device> delete(@RequestBody List<String> ids) {
-        for (String id: ids) {
-            if (deviceRepository.exists(id)) {
-                deviceRepository.delete(id);
+    public ResponseEntity delete(@RequestBody List<String> ids) {
+        if (ids.size() <= 100) {
+            for (String id : ids) {
+                if (deviceRepository.exists(id)) {
+                    deviceRepository.delete(id);
+                }
             }
+            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<Device>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ResponseEntity<List<Device>> readList(@RequestParam(required = false)Integer offset, @RequestParam(required = false)Integer limit) {
+    public ResponseEntity readList(@RequestParam(required = false)Integer offset, @RequestParam(required = false)Integer limit) {
         List<Device> devices = null;
         if (limit == null && offset == null) {
             devices = deviceRepository.findAll(new PageRequest(0, 10)).getContent();
         } else if (limit != null && offset != null) {
             devices = deviceRepository.findAll(new PageRequest(offset, limit)).getContent();
         } else {
-            return new ResponseEntity<List<Device>>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<List<Device>>(devices, HttpStatus.OK);
+        return new ResponseEntity(devices, HttpStatus.OK);
     }
 }

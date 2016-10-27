@@ -3,7 +3,7 @@ spring:
     application: router
     host: localhost
     port: 27017
-    database: admin
+    database: router
     login: admin
     password: admin
   admin:
@@ -11,3 +11,4 @@ spring:
     password: admin
 server:
   port: 8080
+
